@@ -3,7 +3,7 @@ from itertools import combinations
 import math
 
 def parse_input():
-    input =  open("test.txt").read().split('\n')
+    input =  open("input.txt").read().split('\n')
     grid = defaultdict(lambda: '.')
     
     for row_index, line_content in enumerate(input):
@@ -91,7 +91,7 @@ def manhattan_distance(a, b):
         raise ValueError("Distance 'a' and 'b' must be the same length.")
     return sum([abs(p - q) for p, q in zip(a, b)])
 
-def main():
+def part1():
     grid = expand_universe(parse_input())
     pairs = find_pairs(grid)
     total_distance = 0
@@ -99,5 +99,27 @@ def main():
         total_distance += manhattan_distance(pair[0], pair[1])
     
     return total_distance
-        
-print(main())
+   
+def part1increased():
+    grid = expand_universe(parse_input())
+    grid = expand_universe(grid)
+    pairs = find_pairs(grid)
+    total_distance = 0
+    for pair in pairs:
+        total_distance += manhattan_distance(pair[0], pair[1])
+    
+    return total_distance
+   
+def part2():
+    original_total_distance = part1()
+
+    increase_for_one_insertion = part1increased() - original_total_distance
+
+    increase_for_million_insertions = increase_for_one_insertion * 499999
+
+    new_total_distance = original_total_distance + increase_for_million_insertions
+
+    return new_total_distance
+
+print(part1())
+print(part2())
