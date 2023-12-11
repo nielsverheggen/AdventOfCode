@@ -1,8 +1,9 @@
 from collections import defaultdict
+from itertools import combinations
 import math
 
 def parse_input():
-    input =  open("input.txt").read().split('\n')
+    input =  open("test.txt").read().split('\n')
     grid = defaultdict(lambda: '.')
     
     for row_index, line_content in enumerate(input):
@@ -62,7 +63,7 @@ def expand_universe(grid):
     for x in range(0, int(math.sqrt(len(grid.keys())))):
         if check_col_no_galaxies(grid, x):
             colsNoGalaxies.append(x)
-
+            
     for col in colsNoGalaxies:
         grid = insert_column(grid, col + colsNoGalaxies.index(col))
 
@@ -77,8 +78,26 @@ def expand_universe(grid):
     
     return grid
 
+def find_pairs(grid):
+    galaxy_coords = [(row, col) for (row, col), value in grid.items() if value == '#']
+
+    pairs = list(combinations(galaxy_coords, 2))
+
+    return pairs
+
+def manhattan_distance(a, b):
+    b = b or tuple(0 for _ in range(len(a)))
+    if len(a) != len(b):
+        raise ValueError("Distance 'a' and 'b' must be the same length.")
+    return sum([abs(p - q) for p, q in zip(a, b)])
+
 def main():
     grid = expand_universe(parse_input())
+    pairs = find_pairs(grid)
+    total_distance = 0
+    for pair in pairs:
+        total_distance += manhattan_distance(pair[0], pair[1])
     
+    return total_distance
         
-main()
+print(main())
