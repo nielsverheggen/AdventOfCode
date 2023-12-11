@@ -7,6 +7,7 @@ input = read_input()
 grid = defaultdict(lambda: '.')
 start_position = None
 
+
 for row_index, line_content in enumerate(input):
     for col_index, character in enumerate(line_content):
         grid[(row_index, col_index)] = character
@@ -82,7 +83,7 @@ for symbol in ['|', '-', 'L', 'J', '7', 'F']:
         break
 
 distances, _, seen_nodes = breadth_first_search(start_position, None, get_neighbors)
-loop_nodes = seen_nodes
+print(distances)
 print(max(distances.values()))
 
 def part2():
@@ -90,9 +91,9 @@ def part2():
     for row in range(len(input)):
         left_border_count = 0
         for column in range(len(input[0])):
-            if (row, column) not in loop_nodes and left_border_count % 2 == 1:
+            if (row, column) not in seen_nodes and left_border_count % 2 == 1:
                 inside_count += 1
-            if grid[(row, column)] in ['|', 'L', 'J'] and (row, column) in loop_nodes:
+            if grid[(row, column)] in ['|', 'L', 'J'] and (row, column) in seen_nodes:
                 left_border_count += 1
     
     return inside_count
