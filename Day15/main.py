@@ -31,9 +31,7 @@ def part2(input):
             focal_length = step.split("=",1)[1]
             if boxnr not in boxes:
                 boxes[boxnr] = {}
-                boxes[boxnr][label] = focal_length
-            else:
-                boxes[boxnr][label] = focal_length
+            boxes[boxnr][label] = focal_length
                 
         else:
             if boxnr in boxes and label in boxes[boxnr]:
