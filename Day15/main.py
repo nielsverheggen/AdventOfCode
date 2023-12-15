@@ -28,10 +28,9 @@ def part2(input):
         label = re.match(r"^[^-=]*", step).group(0)
         boxnr = get_hash(label)
         if '='  in step:
-            focal_length = step.split("=",1)[1]
             if boxnr not in boxes:
                 boxes[boxnr] = {}
-            boxes[boxnr][label] = focal_length
+            boxes[boxnr][label] = step.split("=",1)[1]
                 
         else:
             if boxnr in boxes and label in boxes[boxnr]:
