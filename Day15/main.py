@@ -33,10 +33,7 @@ def part2(input):
                 boxes[boxnr] = {}
                 boxes[boxnr][label] = focal_length
             else:
-                if label in boxes[boxnr]:
-                    boxes[boxnr][label] = focal_length
-                else:
-                    boxes[boxnr][label] = focal_length
+                boxes[boxnr][label] = focal_length
                 
         else:
             if boxnr in boxes and label in boxes[boxnr]:
