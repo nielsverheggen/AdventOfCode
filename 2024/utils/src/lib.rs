@@ -1,4 +1,7 @@
-use std::fs;
+use std::fs::File;
+use std::{fs, io};
+use std::io::BufRead;
+use std::path::Path;
 use std::str::FromStr;
 
 pub fn parse_to_string(path: &str) -> String {
@@ -66,7 +69,7 @@ fn permute<T: Clone>(remaining: Vec<T>, current: Vec<T>, result: &mut Vec<Vec<T>
     }
 }
 
-pub fn parse_grid<T: FromStr>(input: &str, row_delim: &str, col_delim: &str) -> Vec<Vec<T>>
+pub fn parse_grid_delim<T: FromStr>(input: &str, row_delim: &str, col_delim: &str) -> Vec<Vec<T>>
 where
     T::Err: std::fmt::Debug,
 {
@@ -74,6 +77,19 @@ where
         .split(row_delim)
         .map(|row| parse_delimited(row, col_delim))
         .collect()
+}
+
+pub fn parse_grid(directory: &str) -> Vec<Vec<char>> {
+    let filepath = Path::new(directory);
+    let file = File::open(filepath).expect("File not found");
+    let reader = io::BufReader::new(file);
+    let grid: Vec<Vec<char>> = reader
+        .lines()
+        .filter_map(|line| line.ok()) 
+        .map(|line| line.trim().chars().collect())
+        .collect();
+    
+    grid
 }
 
 pub fn bfs(start: usize, graph: &[Vec<usize>]) -> Vec<usize> {
