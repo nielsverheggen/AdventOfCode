@@ -3,6 +3,7 @@ use std::{fs, io};
 use std::io::BufRead;
 use std::path::Path;
 use std::str::FromStr;
+use std::time::{Duration, Instant};
 
 pub fn parse_to_string(path: &str) -> String {
     fs::read_to_string(path).expect("Should have been able to read the file")
@@ -134,4 +135,12 @@ pub fn dfs(start: usize, graph: &[Vec<usize>]) -> Vec<usize> {
     }
 
     result
+}
+
+pub fn start_execution_timing() -> Instant {
+    Instant::now()
+}
+
+pub fn end_execution_timing(execution_time_start: Instant) -> Duration {
+    execution_time_start.elapsed()
 }
