@@ -1,3 +1,4 @@
+use std::collections::{BTreeMap, HashMap};
 use std::fs::File;
 use std::{fs, io};
 use std::io::BufRead;
@@ -92,6 +93,39 @@ pub fn parse_grid(directory: &str) -> Vec<Vec<char>> {
     
     grid
 }
+
+pub fn parse_grid_map(directory: &str) -> BTreeMap<(usize, usize), char> {
+    let filepath: &Path = Path::new(directory);
+    let file: File = File::open(filepath).expect("File not found");
+    let reader: io::BufReader<File> = io::BufReader::new(file);
+
+    let mut grid_map: BTreeMap<(usize, usize), char> = BTreeMap::new();
+
+    for (y, line) in reader.lines().filter_map(|l| l.ok()).enumerate() {
+        for (x, ch) in line.trim().chars().enumerate() {
+            grid_map.insert((y, x), ch);
+        }
+    }
+
+    grid_map
+}
+
+pub fn parse_grid_map_numeric(directory: &str) -> HashMap<(usize, usize), i32> {
+    let filepath: &Path = Path::new(directory);
+    let file: File = File::open(filepath).expect("File not found");
+    let reader: io::BufReader<File> = io::BufReader::new(file);
+
+    let mut grid_map: HashMap<(usize, usize), i32> = HashMap::new();
+
+    for (y, line) in reader.lines().filter_map(|l| l.ok()).enumerate() {
+        for (x, ch) in line.trim().chars().enumerate() {
+            grid_map.insert((x, y), ch as i32);
+        }
+    }
+
+    grid_map
+}
+
 
 pub fn bfs(start: usize, graph: &[Vec<usize>]) -> Vec<usize> {
     let mut visited = vec![false; graph.len()];
