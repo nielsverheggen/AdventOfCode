@@ -137,6 +137,14 @@ pub fn dfs(start: usize, graph: &[Vec<usize>]) -> Vec<usize> {
     result
 }
 
+pub fn gcd(a: isize, b: isize) -> isize {
+    if b == 0 {
+        a.abs()
+    } else {
+        gcd(b, a % b)
+    }
+}
+
 pub fn start_execution_timing() -> Instant {
     Instant::now()
 }
